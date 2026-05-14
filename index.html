@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartes de repte · Final de curs</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #8a9e8c;
+    --sage-light: #c8d9c9;
+    --sage-pale: #eef3ee;
+    --stone: #9e9488;
+    --stone-light: #d4cfc8;
+    --stone-pale: #f4f1ed;
+    --mist: #8c96a3;
+    --mist-light: #ccd3db;
+    --mist-pale: #edf0f4;
+    --clay: #a8907a;
+    --clay-light: #d9c9b8;
+    --clay-pale: #f5efe8;
+    --text-dark: #2d3028;
+    --text-mid: #5a5e55;
+    --text-soft: #8a8f84;
+    --bg: #f7f5f1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .slide {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw;
+    animation: fadeIn 0.6s ease;
+  }
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* PORTADA PRINCIPAL */
+  .slide-portada {
+    flex-direction: column;
+    text-align: center;
+    background: var(--stone-pale);
+  }
+  .slide-portada .eyebrow {
+    font-size: clamp(11px, 1.2vw, 13px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 1.5rem;
+  }
+  .slide-portada h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 400;
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .slide-portada .subtitol {
+    font-size: clamp(14px, 1.6vw, 18px);
+    color: var(--text-mid);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .slide-portada .linia {
+    width: 48px;
+    height: 1px;
+    background: var(--stone-light);
+    margin: 2rem auto;
+  }
+
+  /* PORTADA CATEGORIA */
+  .slide-cat {
+    flex-direction: column;
+    text-align: center;
+  }
+  .slide-cat.cat-agenda { background: #f0f4ee; }
+  .slide-cat.cat-respecte { background: #f4efee; }
+  .slide-cat.cat-final { background: #eef0f4; }
+  .slide-cat.cat-ordre { background: #f4f2ee; }
+
+  .cat-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 26px;
+  }
+  .cat-agenda .cat-icon { background: var(--sage-light); }
+  .cat-respecte .cat-icon { background: var(--clay-light); }
+  .cat-final .cat-icon { background: var(--mist-light); }
+  .cat-ordre .cat-icon { background: var(--stone-light); }
+
+  .cat-num {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    margin-bottom: 0.75rem;
+  }
+  .slide-cat h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .cat-agenda h2 { color: #3d5c40; }
+  .cat-respecte h2 { color: #5c3d38; }
+  .cat-final h2 { color: #38435c; }
+  .cat-ordre h2 { color: #5c5040; }
+
+  .cat-desc {
+    font-size: clamp(14px, 1.5vw, 17px);
+    color: var(--text-mid);
+    font-weight: 300;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+  .cat-count {
+    margin-top: 2rem;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+
+  /* CARTA */
+  .slide-carta {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .slide-carta.cat-agenda { background: #f0f4ee; }
+  .slide-carta.cat-respecte { background: #f4efee; }
+  .slide-carta.cat-final { background: #eef0f4; }
+  .slide-carta.cat-ordre { background: #f4f2ee; }
+
+  .carta-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2.5rem;
+  }
+  .carta-pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .cat-agenda .carta-pip { background: var(--sage); }
+  .cat-respecte .carta-pip { background: var(--clay); }
+  .cat-final .carta-pip { background: var(--mist); }
+  .cat-ordre .carta-pip { background: var(--stone); }
+
+  .carta-label {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+  .carta-num {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+  }
+
+  .carta-titol {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+    max-width: 700px;
+  }
+
+  .carta-desc {
+    font-size: clamp(15px, 1.7vw, 19px);
+    color: var(--text-mid);
+    font-weight: 300;
+    line-height: 1.75;
+    max-width: 680px;
+    margin-bottom: 2rem;
+  }
+
+  .carta-repte {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    max-width: 680px;
+  }
+  .cat-agenda .carta-repte { background: rgba(138,158,140,0.12); }
+  .cat-respecte .carta-repte { background: rgba(168,144,122,0.12); }
+  .cat-final .carta-repte { background: rgba(140,150,163,0.12); }
+  .cat-ordre .carta-repte { background: rgba(158,148,136,0.12); }
+
+  .repte-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .cat-agenda .repte-label { color: var(--sage); }
+  .cat-respecte .repte-label { color: var(--clay); }
+  .cat-final .repte-label { color: var(--mist); }
+  .cat-ordre .repte-label { color: var(--stone); }
+
+  .repte-text {
+    font-size: clamp(13px, 1.4vw, 15px);
+    color: var(--text-mid);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* NAVEGACIÓ */
+  .nav {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(247,245,241,0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--stone-light);
+    border-radius: 100px;
+    padding: 0.5rem 1rem;
+    z-index: 100;
+  }
+  .nav button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--stone-light);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-mid);
+    font-size: 16px;
+    transition: background 0.2s;
+  }
+  .nav button:hover { background: var(--stone-pale); }
+  .nav button:disabled { opacity: 0.3; cursor: default; }
+  .nav-info {
+    font-size: 12px;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  /* PROGRESS */
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--stone);
+    transition: width 0.4s ease;
+    opacity: 0.5;
+  }
+
+  /* TECLAT */
+  .hint {
+    position: fixed;
+    bottom: 5.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- PORTADA PRINCIPAL -->
+<div class="slide slide-portada active" id="s0">
+  <div style="display:flex; flex-direction:column; align-items:center; gap:0; width:100%;">
+    <div class="eyebrow" style="margin-bottom:0.75rem;">Final de curs · Primer cicle ESO</div>
+    <h1 style="margin-bottom:0.4rem;">Cartes de repte</h1>
+    <p class="subtitol" style="font-size:clamp(13px,1.3vw,15px); margin-bottom: 2.5rem;">Llegiu cada carta en silenci. Després, en grup, triareu les que us semblen més difícils i més fàcils.</p>
+
+    <!-- TRÈBOL DE 4 FULLES -->
+    <div style="position:relative; width:clamp(260px,38vw,420px); height:clamp(260px,38vw,420px); flex-shrink:0;">
+
+      <!-- Full superior esquerra: Agenda -->
+      <div style="position:absolute; top:0; left:0; width:48%; height:48%; background:#e8f0e9; border-radius:60% 20% 60% 20%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:1rem; text-align:center; cursor:pointer;" onclick="canvia(1)">
+        <span style="font-size:clamp(18px,2.5vw,28px);">📒</span>
+        <span style="font-family:'Lora',serif; font-size:clamp(11px,1.1vw,14px); color:#3d5c40; line-height:1.3; font-weight:400;">Agenda i<br>organització</span>
+      </div>
+
+      <!-- Full superior dreta: Final de curs -->
+      <div style="position:absolute; top:0; right:0; width:48%; height:48%; background:#e8ecf2; border-radius:20% 60% 20% 60%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:1rem; text-align:center; cursor:pointer;" onclick="anarA(9)">
+        <span style="font-size:clamp(18px,2.5vw,28px);">🏁</span>
+        <span style="font-family:'Lora',serif; font-size:clamp(11px,1.1vw,14px); color:#38435c; line-height:1.3; font-weight:400;">Sensació de<br>"ja s'ha acabat"</span>
+      </div>
+
+      <!-- Full inferior esquerra: Respecte -->
+      <div style="position:absolute; bottom:0; left:0; width:48%; height:48%; background:#f2ece8; border-radius:20% 60% 20% 60%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:1rem; text-align:center; cursor:pointer;" onclick="anarA(5)">
+        <span style="font-size:clamp(18px,2.5vw,28px);">🤝</span>
+        <span style="font-family:'Lora',serif; font-size:clamp(11px,1.1vw,14px); color:#5c3d38; line-height:1.3; font-weight:400;">Respecte i<br>convivència</span>
+      </div>
+
+      <!-- Full inferior dreta: Ordre -->
+      <div style="position:absolute; bottom:0; right:0; width:48%; height:48%; background:#f0ede8; border-radius:60% 20% 60% 20%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:1rem; text-align:center; cursor:pointer;" onclick="anarA(13)">
+        <span style="font-size:clamp(18px,2.5vw,28px);">📐</span>
+        <span style="font-family:'Lora',serif; font-size:clamp(11px,1.1vw,14px); color:#5c5040; line-height:1.3; font-weight:400;">Ordre i hàbits<br>quotidians</span>
+      </div>
+
+      <!-- Centre del trèbol -->
+      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:22%; height:22%; background:var(--stone-pale); border-radius:50%; border:1px solid var(--stone-light); display:flex; align-items:center; justify-content:center;">
+        <span style="font-size:clamp(10px,1vw,13px); color:var(--text-soft); letter-spacing:0.05em; font-weight:300;">4 · 12</span>
+      </div>
+    </div>
+
+    <p style="font-size:11px; color:var(--text-soft); margin-top:1.25rem; letter-spacing:0.08em;">feu clic a una categoria o avanceu amb →</p>
+  </div>
+</div>
+
+<!-- CAT 1: AGENDA -->
+<div class="slide slide-cat cat-agenda" id="s1">
+  <div class="cat-icon">📒</div>
+  <div class="cat-num">Categoria 1 de 4</div>
+  <h2>Agenda i organització</h2>
+  <p class="cat-desc">Eines per no perdre el fil quan queden poques setmanes i la ment ja comença a ser a l'estiu.</p>
+  <p class="cat-count">3 cartes</p>
+</div>
+
+<div class="slide slide-carta cat-agenda" id="s2">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Agenda i organització</span>
+    <span class="carta-num">1 / 3</span>
+  </div>
+  <h3 class="carta-titol">L'agenda és la meva memòria externa</h3>
+  <p class="carta-desc">Si no ho escric, existeix el risc real que no ho recordi. L'agenda no és un càstig: és una eina que treballa per mi mentre jo faig altres coses.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Anotar a l'agenda els deures i dates d'examen al final de cada classe, abans de sortir de l'aula.</span>
+  </div>
+</div>
+
+<div class="slide slide-carta cat-agenda" id="s3">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Agenda i organització</span>
+    <span class="carta-num">2 / 3</span>
+  </div>
+  <h3 class="carta-titol">Tres setmanes no és res</h3>
+  <p class="carta-desc">Queden menys dies de curs que dies en moltes vacances d'estiu. Anotar el que queda fa que sembli manejable, no infinit.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Escriu avui a l'agenda totes les dates importants que queden. Veure-les escrites fa que deixin de ser una amenaça difusa.</span>
+  </div>
+</div>
+
+<div class="slide slide-carta cat-agenda" id="s4">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Agenda i organització</span>
+    <span class="carta-num">3 / 3</span>
+  </div>
+  <h3 class="carta-titol">Un full, una setmana</h3>
+  <p class="carta-desc">Cada dilluns, dediques 5 minuts a escriure tot el que tens aquella setmana. Quan ho veus escrit, deixes de portar-ho al cap.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">El dilluns, l'agenda oberta sobre la taula els primers 5 minuts de la primera classe.</span>
+  </div>
+</div>
+
+<!-- CAT 2: RESPECTE -->
+<div class="slide slide-cat cat-respecte" id="s5">
+  <div class="cat-icon">🤝</div>
+  <div class="cat-num">Categoria 2 de 4</div>
+  <h2>Respecte i convivència</h2>
+  <p class="cat-desc">Quan estem cansats és quan més costa tractar bé les persones del nostre voltant. I quan més importa fer-ho.</p>
+  <p class="cat-count">3 cartes</p>
+</div>
+
+<div class="slide slide-carta cat-respecte" id="s6">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Respecte i convivència</span>
+    <span class="carta-num">1 / 3</span>
+  </div>
+  <h3 class="carta-titol">El cansament no és una excusa</h3>
+  <p class="carta-desc">Podem estar cansats i igualment tractar bé els companys i el professorat. El cansament explica com ens sentim, però no justifica com actuem.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Quan notis que estàs a punt de dir alguna cosa de mala manera, para 3 segons i reformula-ho.</span>
+  </div>
+</div>
+
+<div class="slide slide-carta cat-respecte" id="s7">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Respecte i convivència</span>
+    <span class="carta-num">2 / 3</span>
+  </div>
+  <h3 class="carta-titol">Escoltar és una habilitat</h3>
+  <p class="carta-desc">Quan algú parla —sigui un company o el professor— deixar de fer altres coses i mirar-lo és la forma més bàsica de respecte. No és obediència: és educació.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Durant una setmana, observes quantes vegades et costa escoltar i per quin motiu. Sense jutjar-te.</span>
+  </div>
+</div>
+
+<div class="slide slide-carta cat-respecte" id="s8">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Respecte i convivència</span>
+    <span class="carta-num">3 / 3</span>
+  </div>
+  <h3 class="carta-titol">Com acabes importa</h3>
+  <p class="carta-desc">La gent recorda com va acabar una relació o una etapa, no només com va ser al mig. Com acabes aquest curs amb els teus professors i companys et defineix.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Pensa: d'aquí a 5 anys, com vols recordar com vas acabar 1r o 2n d'ESO?</span>
+  </div>
+</div>
+
+<!-- CAT 3: FINAL DE CURS -->
+<div class="slide slide-cat cat-final" id="s9">
+  <div class="cat-icon">🏁</div>
+  <div class="cat-num">Categoria 3 de 4</div>
+  <h2>Sensació de "ja s'ha acabat"</h2>
+  <p class="cat-desc">Quan el cap ja és a l'estiu però el curs encara no ha acabat. Per reconnectar amb el que queda i per què val la pena.</p>
+  <p class="cat-count">3 cartes</p>
+</div>
+
+<div class="slide slide-carta cat-final" id="s10">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Sensació de "ja s'ha acabat"</span>
+    <span class="carta-num">1 / 3</span>
+  </div>
+  <h3 class="carta-titol">No ha acabat fins que acabi</h3>
+  <p class="carta-desc">Un sprint d'atletisme no s'ha acabat quan falta un metre. Qui relaxa quan falta un metre, perd. Les últimes setmanes pesen doblement a les notes.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Calcula quantes notes et queden per posar i quant podrien pujar o baixar la teva nota final. Els números no menteixen.</span>
+  </div>
+</div>
+
+<div class="slide slide-carta cat-final" id="s11">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Sensació de "ja s'ha acabat"</span>
+    <span class="carta-num">2 / 3</span>
+  </div>
+  <h3 class="carta-titol">El cansament és senyal que has treballat</h3>
+  <p class="carta-desc">Si estàs cansat, és perquè has fet un curs. El cansament de final de curs no és un problema: és la prova que has estat present.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Escriu tres coses que saps ara que no sabies al setembre. Compartiu-les en veu alta al grup.</span>
+  </div>
+</div>
+
+<div class="slide slide-carta cat-final" id="s12">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Sensació de "ja s'ha acabat"</span>
+    <span class="carta-num">3 / 3</span>
+  </div>
+  <h3 class="carta-titol">Les vacances saben millor si te les has guanyat</h3>
+  <p class="carta-desc">No és moralisme: és psicologia. El cervell gaudeix més d'un descans quan sap que l'ha merescut. Les vacances de qui ha acabat bé duren més.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Visualitza com vols arribar al primer dia de vacances. Escriu-ho en una frase.</span>
+  </div>
+</div>
+
+<!-- CAT 4: ORDRE -->
+<div class="slide slide-cat cat-ordre" id="s13">
+  <div class="cat-icon">📐</div>
+  <div class="cat-num">Categoria 4 de 4</div>
+  <h2>Ordre i hàbits quotidians</h2>
+  <p class="cat-desc">Petites rutines que costen poc i que fan que tot el que ve després sigui més fàcil i menys estressant.</p>
+  <p class="cat-count">3 cartes</p>
+</div>
+
+<div class="slide slide-carta cat-ordre" id="s14">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Ordre i hàbits quotidians</span>
+    <span class="carta-num">1 / 3</span>
+  </div>
+  <h3 class="carta-titol">La motxilla preparada la nit d'abans</h3>
+  <p class="carta-desc">Deu minuts la nit d'abans estalvien vint minuts d'estrès al matí. L'ordre exterior ajuda a l'ordre interior.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Durant una setmana, preparar la motxilla la nit d'abans. Observa si el matí és diferent.</span>
+  </div>
+</div>
+
+<div class="slide slide-carta cat-ordre" id="s15">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Ordre i hàbits quotidians</span>
+    <span class="carta-num">2 / 3</span>
+  </div>
+  <h3 class="carta-titol">Un lloc per a cada cosa</h3>
+  <p class="carta-desc">Cada carpeta, cada quadern, cada material té un lloc fix. Quan les coses estan on toca, el cervell no perd energia buscant-les.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Avui, en arribar a casa, dedica 10 minuts a ordenar l'espai d'estudi. Fes una foto del "abans" i una del "després".</span>
+  </div>
+</div>
+
+<div class="slide slide-carta cat-ordre" id="s16">
+  <div class="carta-header">
+    <div class="carta-pip"></div>
+    <span class="carta-label">Ordre i hàbits quotidians</span>
+    <span class="carta-num">3 / 3</span>
+  </div>
+  <h3 class="carta-titol">Entrar a classe és un ritual</h3>
+  <p class="carta-desc">Entrar, seure, treure el material i preparar-se per escoltar. Trenta segons. No és obligació: és la diferència entre aprofitar la classe o no.</p>
+  <div class="carta-repte">
+    <span class="repte-label">Repte</span>
+    <span class="repte-text">Durant una setmana, sigues el primer o primera del teu grup de taula a tenir el material a punt quan el professor comença.</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button id="btn-prev" onclick="canvia(-1)" disabled>←</button>
+  <span class="nav-info" id="nav-info">1 / 17</span>
+  <button id="btn-next" onclick="canvia(1)">→</button>
+</div>
+<p class="hint">← → per navegar · espai per avançar</p>
+
+<script>
+  const total = 17;
+  let actual = 0;
+
+  function anarA(n) {
+    document.getElementById('s' + actual).classList.remove('active');
+    actual = n;
+    document.getElementById('s' + actual).classList.add('active');
+    document.getElementById('nav-info').textContent = (actual + 1) + ' / ' + total;
+    document.getElementById('btn-prev').disabled = actual === 0;
+    document.getElementById('btn-next').disabled = actual === total - 1;
+    document.getElementById('progress').style.width = ((actual / (total - 1)) * 100) + '%';
+  }
+
+  function canvia(dir) {
+    document.getElementById('s' + actual).classList.remove('active');
+    actual = Math.max(0, Math.min(total - 1, actual + dir));
+    document.getElementById('s' + actual).classList.add('active');
+    document.getElementById('nav-info').textContent = (actual + 1) + ' / ' + total;
+    document.getElementById('btn-prev').disabled = actual === 0;
+    document.getElementById('btn-next').disabled = actual === total - 1;
+    document.getElementById('progress').style.width = ((actual / (total - 1)) * 100) + '%';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') canvia(1);
+    if (e.key === 'ArrowLeft') canvia(-1);
+  });
+
+  document.getElementById('progress').style.width = '0%';
+</script>
+</body>
+</html>
